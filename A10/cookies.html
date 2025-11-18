@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A10 Cookie Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    #cookieDisplay {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #555;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>A10 Cookie Webpage</h1>
+  <p>This page sets a cookie using JavaScript and displays the saved value when the page is reloaded.</p>
+
+  <div id="cookieDisplay"></div>
+
+  <footer>
+    &copy; 2025 • IS 117 Assignment A10 • Yeimmi Luna
+  </footer>
+
+  <script>
+    function setCookie(name, value, days) {
+      const d = new Date();
+      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + d.toUTCString();
+      document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+    }
+
+    function getCookie(name) {
+      const cname = name + "=";
+      const decoded = decodeURIComponent(document.cookie);
+      const parts = decoded.split(';');
+      for (let c of parts) {
+        c = c.trim();
+        if (c.indexOf(cname) === 0) {
+          return c.substring(cname.length);
+        }
+      }
+      return "";
+    }
+
+    window.onload = function () {
+      const cookieName = "myCookieValue";
+      const displayDiv = document.getElementById("cookieDisplay");
+      const savedValue = getCookie(cookieName);
+
+      if (savedValue) {
+        displayDiv.textContent = "Saved cookie value: " + savedValue;
+      } else {
+        const userInput = prompt("Enter a value to store in the cookie:");
+        if (userInput) {
+          setCookie(cookieName, userInput, 365);
+          displayDiv.textContent = "Cookie saved: " + userInput;
+        } else {
+          displayDiv.textContent = "No value entered. Cookie not set.";
+        }
+      }
+    };
+  </script>
+
+</body>
+</html>
